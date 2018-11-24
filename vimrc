@@ -2,9 +2,11 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'ternjs/tern_for_vim'
 
+" ========= THEME
 Plug 'sickill/vim-monokai'
+Plug 'tyrannicaltoucan/vim-quantum'
+" =========
 
-Plug 'junegunn/vim-easy-align'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -12,51 +14,34 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " Multiple Plug commands can be written in a single line using | separators
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" On-demand loading
+" ========== On-demand loading ==========
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a non-master branch
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
-
-" Plug options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'pangloss/vim-javascript', { 'for', 'javascript' }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for', 'javascript' }
+Plug 'othree/es.next.syntax.vim', { 'for', 'javascript' }
+Plug 'othree/yajs.vim', { 'for', 'javascript' }
+Plug 'mxw/vim-jsx', { 'for', 'javascript' }
+Plug 'flowtype/vim-flow', { 'for', 'javascript' }
 
 " Plug outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-" Unmanaged plugin (manually installed and updated)
-Plug '~/my-prototype-plugin'
-
-Plug 'fatih/vim-go'
-Plug 'pangloss/vim-javascript'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/es.next.syntax.vim'
-Plug 'othree/yajs.vim'
-Plug 'mxw/vim-jsx'
-Plug 'kchmck/vim-coffee-script'
-Plug 'flowtype/vim-flow'
-
-Plug 'godlygeek/tabular'
-Plug 'scrooloose/nerdtree'
+" ========== Load when open ==========
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/syntastic'
 Plug 'blueyed/vim-diminactive'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Valloric/YouCompleteMe'
 Plug 'mileszs/ack.vim'
-Plug 'rking/ag.vim'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'wavded/vim-stylus'
-Plug 'stylus/stylus'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'prettier/vim-prettier'
+Plug 'w0rp/ale'
 Plug 'vim-airline/vim-airline'
 
 " Initialize plugin system
@@ -90,20 +75,6 @@ nmap <leader>w :w!<cr>
 
 nmap <leader>s :Ag
 
-nmap ,a= :Tabularize /=<CR>
-vmap ,a= :Tabularize /=<CR>
-nmap ,a: :Tabularize /^[^:]*\zs:<CR>
-vmap ,a: :Tabularize /:<CR>
-nmap ,aa :Tabularize /\CAS<CR>
-nmap ,ff :Tabularize /from<CR>
-nmap ,afr :Tabularize /=><CR>
-vmap ,afr :Tabularize /=><CR>
-nmap ,atr :Tabularize /-><CR>
-vmap ,atr :Tabularize /-><CR>
-nmap ,agg :Tabularize /:=<CR>
-vmap ,agg :Tabularize /:=<CR>
-
-
 set number
 set tabstop=2
 set smarttab
@@ -119,7 +90,7 @@ set relativenumber
 set laststatus=2
 set statusline=%f
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 
 set rtp+=/usr/local/opt/fzf
 
@@ -209,9 +180,10 @@ endif
 
 if has("gui_macvim")
   set termguicolors
-  colorscheme monokai
+  let g:quantum_black=1
+  colorscheme quantum
 else
-  colorscheme monokai
+  colorscheme default
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -285,28 +257,26 @@ endfunction
 " => Syntastic (syntax checker)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exe = 'yarn lint --'
-let g:jsx_ext_required = 0
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_eslint_exe = 'yarn lint --'
+" let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Prettier
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:prettier#exec_cmd_path='/usr/local/bin/prettier'
-let g:prettier#autoformat = 0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => Prettier
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:prettier#config#trailing_comma = 'es5'
 let g:prettier#config#single_quote = 'true'
 let g:prettier#config#bracket_spacing = 'true'
 let g:prettier#config#semi = 'false'
 let g:prettier#config#jsx_bracket_same_line = 'false'
-let g:prettier#config#parser = 'babylon'
 
-autocmd BufWritePre *.js,*.jsx,*.graphql Prettier
-
+let g:jsx_ext_required = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fix_on_save = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => YouCompleteMe
