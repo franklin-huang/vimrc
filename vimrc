@@ -18,12 +18,12 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'pangloss/vim-javascript', { 'for', 'javascript' }
-Plug 'othree/javascript-libraries-syntax.vim', { 'for', 'javascript' }
-Plug 'othree/es.next.syntax.vim', { 'for', 'javascript' }
-Plug 'othree/yajs.vim', { 'for', 'javascript' }
-Plug 'mxw/vim-jsx', { 'for', 'javascript' }
-Plug 'flowtype/vim-flow', { 'for', 'javascript' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+Plug 'flowtype/vim-flow', { 'for': 'javascript' }
 
 " Plug outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -282,4 +282,8 @@ let g:ale_fix_on_save = 1
 " => YouCompleteMe
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ycm_autoclose_preview_window_after_completion = 1
+
+if filereadable("../.vimrc-extend")
+  source ../.vimrc-extend
+endif
 
