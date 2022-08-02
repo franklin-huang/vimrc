@@ -283,7 +283,9 @@ let g:ale_fix_on_save = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ycm_autoclose_preview_window_after_completion = 1
 
-if filereadable("../.vimrc-extend")
-  source ../.vimrc-extend
+
+let s:extend = $HOME."/.vimrc-extend"
+if filereadable(s:extend)
+  exec "source " . s:extend
 endif
 
